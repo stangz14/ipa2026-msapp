@@ -1,0 +1,56 @@
+<html>
+<head>
+    <title>Interface Status</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <a href="{{ url_for('main') }}">Back to routers</a>
+    <h1>Interface Status</h1>
+    <form method="get" action="{{ url_for('interface_status') }}">
+      <label for="router">Router:</label>
+      <select id="router" name="router">
+        <option value="">All routers</option>
+        {% for router in routers %}
+          <option value="{{ router.ip }}" {% if router.ip == selected_router %}selected{% endif %}>
+            {{ router.ip }}
+          </option>
+        {% endfor %}
+      </select>
+      <button type="submit">Show status</button>
+    </form>
+
+    {% if statuses %}
+      {% for status in statuses %}
+        <section class="status-panel">
+          <h2>{{ status.router_ip }}</h2>
+          <p class="timestamp">{{ status.timestamp or "No timestamp" }}</p>
+
+          {% if status.interfaces %}
+            <table>
+              <thead>
+                <tr>
+                  {% for key in status.interfaces[0].keys() %}
+                    <th>{{ key|replace('_', ' ')|title }}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for interface in status.interfaces %}
+                  <tr>
+                    {% for key in status.interfaces[0].keys() %}
+                      <td>{{ interface.get(key, '') }}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p>No interface data was returned.</p>
+          {% endif %}
+        </section>
+      {% endfor %}
+    {% else %}
+      <p>No interface status has been recorded yet.</p>
+    {% endif %}
+</body>
+</html>

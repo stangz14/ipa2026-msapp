@@ -1,0 +1,4 @@
+netmiko==4.7.0
+ntc_templates==9.2.0
+pika==1.4.4
+pymongo==4.17.0
