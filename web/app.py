@@ -6,8 +6,8 @@ from bson.errors import InvalidId
 
 app = Flask(__name__)
 
-mongo_uri  = os.environ.get("MONGO_URI")
-db_name    = os.environ.get("DB_NAME")
+mongo_uri = os.environ.get("MONGO_URI")
+db_name = os.environ.get("DB_NAME")
 
 client = MongoClient(mongo_uri)
 db = client[db_name]
@@ -30,7 +30,9 @@ def interface_status():
     query = {"router_ip": selected_router} if selected_router else {}
     routers = collection.find({}, {"ip": 1, "_id": 0}).sort("ip", 1)
     statuses = []
-    for document in interface_status_collection.find(query).sort("timestamp", -1).limit(3):
+    for document in \
+interface_status_collection.find(query).sort("timestamp", \
+-1).limit(3):
         statuses.append({
             "router_ip": document.get("router_ip", "Unknown"),
             "timestamp": document.get("timestamp"),
@@ -50,7 +52,8 @@ def add_comment():
     username = request.form.get("username")
     password = request.form.get("password")
     if ip and username and password:
-        collection.insert_one({"ip": ip, "username": username, "password": password})
+        collection.insert_one({"ip": ip, \
+"username": username, "password": password})
     return redirect(url_for("main"))
 
 

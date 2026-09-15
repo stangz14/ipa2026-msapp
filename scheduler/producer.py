@@ -54,7 +54,6 @@ def produce_many(host, bodies):
     try:
         channel = connection.channel()
 
-        # สร้าง exchange และ queue เสมอ แม้ bodies จะว่าง
         declare_topology(channel)
 
         sent = 0
