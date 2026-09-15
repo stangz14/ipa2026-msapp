@@ -30,14 +30,16 @@ def interface_status():
     query = {"router_ip": selected_router} if selected_router else {}
     routers = collection.find({}, {"ip": 1, "_id": 0}).sort("ip", 1)
     statuses = []
-    for document in interface_status_collection.find(query).sort(
-        "timestamp", -1
-    ).limit(3):
-        statuses.append({
-            "router_ip": document.get("router_ip", "Unknown"),
-            "timestamp": document.get("timestamp"),
-            "interfaces": document.get("interfaces", []),
-        })
+    for document in (
+        interface_status_collection.find(query).sort("timestamp", -1).limit(3)
+    ):
+        statuses.append(
+            {
+                "router_ip": document.get("router_ip", "Unknown"),
+                "timestamp": document.get("timestamp"),
+                "interfaces": document.get("interfaces", []),
+            }
+        )
     return render_template(
         "interface_status.html",
         statuses=statuses,
@@ -52,18 +54,14 @@ def add_comment():
     username = request.form.get("username")
     password = request.form.get("password")
     if ip and username and password:
-        collection.insert_one(
-            {"ip": ip, "username": username, "password": password}
-        )
+        collection.insert_one({"ip": ip, "username": username, "password": password})
     return redirect(url_for("main"))
 
 
 @app.route("/delete/<document_id>", methods=["POST"])
 def delete_comment(document_id):
     try:
-        result = collection.delete_one({
-            "_id": ObjectId(document_id)
-        })
+        result = collection.delete_one({"_id": ObjectId(document_id)})
 
         print("document_id:", document_id)
         print("deleted_count:", result.deleted_count)

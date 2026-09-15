@@ -2,7 +2,6 @@ import os
 
 import pika
 
-
 EXCHANGE_NAME = "jobs"
 QUEUE_NAME = "router_jobs"
 ROUTING_KEY = "check_interfaces"

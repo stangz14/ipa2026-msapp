@@ -6,7 +6,6 @@ from bson import json_util
 from database import get_router_info
 from producer import produce_many
 
-
 INTERVAL = 10.0
 RABBITMQ_HOST = os.getenv("RABBITMQ_HOST", "rabbitmq")
 
@@ -35,10 +34,7 @@ def scheduler():
         try:
             routers = list(get_router_info())
 
-            bodies = [
-                json_util.dumps(router).encode("utf-8")
-                for router in routers
-            ]
+            bodies = [json_util.dumps(router).encode("utf-8") for router in routers]
 
             # จะประกาศ queue แม้ bodies ไม่มีข้อมูล
             sent = produce_many(
@@ -47,8 +43,7 @@ def scheduler():
             )
 
             print(
-                f"router records: {len(routers)}, "
-                f"messages sent: {sent}",
+                f"router records: {len(routers)}, " f"messages sent: {sent}",
                 flush=True,
             )
 
