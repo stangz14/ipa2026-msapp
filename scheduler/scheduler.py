@@ -6,7 +6,7 @@ from bson import json_util
 from database import get_router_info
 from producer import produce_many
 
-INTERVAL = 10.0
+INTERVAL = 5.0
 RABBITMQ_HOST = os.getenv("RABBITMQ_HOST", "rabbitmq")
 
 

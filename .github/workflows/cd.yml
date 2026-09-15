@@ -31,10 +31,10 @@ jobs:
             echo "MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}"
             echo "RABBITMQ_DEFAULT_USER=${{ secrets.RABBITMQ_DEFAULT_USER }}"
             echo "RABBITMQ_DEFAULT_PASS=${{ secrets.RABBITMQ_DEFAULT_PASS }}"
-          } > .env
+          } > .envS
           chmod 600 .env
 
       - name: Up (pull from Hub, no build on prod)
         run: |
-          docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --pull always --no-build
+          docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --pull always --no-build --scale worker=3
           docker compose ps

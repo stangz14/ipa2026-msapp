@@ -31,7 +31,7 @@ def interface_status():
     routers = collection.find({}, {"ip": 1, "_id": 0}).sort("ip", 1)
     statuses = []
     for document in (
-        interface_status_collection.find(query).sort("timestamp", -1).limit(3)
+        interface_status_collection.find(query).sort("timestamp", -1).limit(5)
     ):
         statuses.append(
             {
