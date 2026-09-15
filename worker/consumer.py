@@ -35,9 +35,7 @@ def consume():
     ch = conn.channel()
     ch.queue_declare(queue="router_jobs", durable=True)
     ch.basic_qos(prefetch_count=1)
-    ch.basic_consume(
-        queue="router_jobs", on_message_callback=callback, auto_ack=True
-    )
+    ch.basic_consume(queue="router_jobs", on_message_callback=callback, auto_ack=True)
     ch.start_consuming()
 
 
